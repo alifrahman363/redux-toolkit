@@ -1,25 +1,14 @@
-const { createStore, combineReducers } = require('redux');
-
+const { createStore, applyMiddleware } = require('redux');
+const { default: logger } = require('redux-logger');
 // product constants
 const GET_PRODUCT = 'GET_PRODUCT';
 const ADD_PRODUCT = 'ADD_PRODUCT';
-
-// cart constants
-const ADD_TO_CART = 'ADD_TO_CART';
-const GET_CART = 'GET_CART';
 
 // product states
 const initialProductState = {
     products: ["suger", "rice"],
     numberOfProducts: 2
 };
-
-
-// cart states
-const initialCartState = {
-    cart: ["sugar"],
-    numberOfProducts: 1
-}
 
 // product actions
 const getProductAction = () => {
@@ -34,21 +23,6 @@ const addProductAction = (product) => {
         payload: product
     }
 }
-
-// cart actions
-const getCartAction = () => {
-    return {
-        type: GET_CART
-    }
-}
-
-const addToCartAction = (product) => {
-    return {
-        type: ADD_TO_CART,
-        payload: product
-    }
-}
-
 
 // product reducer
 const productReducer = (state = initialProductState, action) => {
@@ -67,35 +41,11 @@ const productReducer = (state = initialProductState, action) => {
     }
 }
 
-// cart reducer
-const cartReducer = (state = initialCartState, action) => {
-    switch (action.type) {
-        case GET_CART:
-            return {
-                ...state
-            }
-        case ADD_TO_CART:
-            return {
-                cart: [...state.cart, action.payload],
-                numberOfProducts: state.numberOfProducts + 1
-            }
-        default:
-            return state;
-    }
-
-}
-
-const rootReducer = combineReducers({
-    productReducer: productReducer,
-    cartReducer: cartReducer
-})
-
-const store = createStore(rootReducer);
+// store
+const store = createStore(productReducer, applyMiddleware(logger));
 store.subscribe(() => {
-    console.log("this is cart state: ", store.getState());
+    console.log("this is product state: ", store.getState());
 })
 
 store.dispatch(getProductAction());
-store.dispatch(addProductAction("milk"));
-store.dispatch(getCartAction());
-store.dispatch(addToCartAction("milk"));
+store.dispatch(addProductAction("milk")); 
