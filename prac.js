@@ -8,7 +8,7 @@ const ADD_USER = 'ADD_USER';
 
 // initial state
 const initialUserState = {
-    users: [{ name: 'John' }],
+    users: ['Andy'],
     count: 1
 }
 
@@ -39,4 +39,6 @@ const store = createStore(userReducer);
 store.subscribe(() => {
     console.log("Changing state: ", store.getState());
 })
-store.dispatch(addUserAction("Ashique"));
+store.dispatch(addUserAction("Mark"));
+store.dispatch(addUserAction("Alex"));
+store.dispatch(addUserAction("Barbie")); 
