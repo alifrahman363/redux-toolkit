@@ -33,6 +33,24 @@ const addUser = () => {
     };
 }
 
+// create reducer for counter
+const counterReducer = (state = initialCounterState, action) => {
+    switch (action.type) {
+        case INCREMENT:
+            return {
+                ...state,
+                count: state.count + 1
+            };
+        case DECREMENT:
+            return {
+                ...state,
+                count: state.count - 1
+            };
+        default:
+            return state;
+    }
+
+}
 // 1. state
 // 2. action dispatch
 // 3. reducer - pure function
