@@ -4,82 +4,39 @@
 // store
 
 const { createStore } = require('redux');
-
-const INCREMENT = 'INCREMENT';
-const DECREMENT = 'DECREMENT';
-const RESET = 'RESET';
-const INCREMENT_BY_VALUE = 'INCREMENT_BY_VALUE';
+const ADD_USER = 'ADD_USER';
 
 // initial state
-const initialState = {
-    count: 0
+const initialUserState = {
+    users: [{ name: 'John' }],
+    count: 1
 }
 
-// create action
-const incrementAction = () => {
+// create action 
+const addUserAction = (user) => {
+
     return {
-        type: INCREMENT
+        type: ADD_USER,
+        payload: user
     }
 }
-
-const decrementAction = () => {
-    return {
-        type: DECREMENT
-    }
-}
-
-const resetAction = () => {
-    return {
-        type: RESET
-    }
-}
-
-const incrementByValueAction = (value) => {
-    return {
-        type: INCREMENT_BY_VALUE,
-        payload: value
-    }
-}
-
 
 // create reducer
-const counterReducer = (state = initialState, action) => {
+const userReducer = (state = initialUserState, action) => {
     switch (action.type) {
-        case INCREMENT:
+        case ADD_USER:
             return {
-                ...state,
+                users: [...state.users, action.payload],
                 count: state.count + 1
             }
-        case DECREMENT:
-            return {
-                ...state,
-                count: state.count - 1
-            }
-        case RESET:
-            return {
-                ...state,
-                count: 0
-            }
-        case INCREMENT_BY_VALUE:
-            return {
-                ...state,
-                count: state.count + action.payload
-            }
         default:
-            state;
+            return state;
     }
 }
 
-
 // Store
-const store = createStore(counterReducer);
+const store = createStore(userReducer);
 store.subscribe(() => {
     console.log("Changing state: ", store.getState());
 })
-
-// store.dispatch(incrementAction());
-// store.dispatch(incrementAction());
-// store.dispatch(decrementAction());
-// store.dispatch(resetAction());
-store.dispatch(incrementByValueAction(10));
-store.dispatch(incrementByValueAction(30));
+store.dispatch(addUserAction("Ashique"));
